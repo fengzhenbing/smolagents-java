@@ -240,7 +240,7 @@ public interface Agent {
 
 ### 12.1 验证基线和环境阻塞
 
-- 当前执行模式：按用户要求，暂不修改 Java/Python 源码或测试代码；只维护本文、行为基线、兼容矩阵中的状态和差异，直到用户明确恢复代码实施。
+- 当前执行模式：用户要求暂不修改源码和测试代码，仅维护文档及剩余待办，直至用户明确恢复代码实施。Java 工程完整源码/测试/文档已推送至 `fengzhenbing/smolagents-java` 的 `main`，初始代码提交为 `d3b1fc1b4437871b0b6d2f88a48d29ab94d36d9f`；`target/` 构建产物与 `.idea/` 本机 IDE 配置未纳入仓库。此推送不代表整体重实现已完成。
 - 最近一次完整 Maven/Javadoc 验证：`.\mvnw.cmd test javadoc:javadoc`，212 tests、0 failures/errors、7 opt-in skips；后续代码修改须重新运行并同步计数。
 - 文档复核：逐项核对 `docs/00` 至 `docs/04` 与当前源码/POM/Surefire XML，并验证 5 份 Markdown 的本地链接；`ToolExecutionContext` logger 误述、ToolSpec 输出元数据和 planning prompt 差异已按当前实现修订。文档修订不会替代后续 Python 行为对照。
 - Chrome/CDP 视觉浏览器和 Web UI 会话/任务 smoke 曾显式通过；本机 `gemma4:26b` Ollama smoke/tool calling/ToolCallingAgent 3/3 曾显式通过。
