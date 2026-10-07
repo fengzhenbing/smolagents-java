@@ -1,7 +1,7 @@
 # Core 领域模型与 API 契约
 
 > 状态：当前领域 API 与已知差异；部分段落保留早期设计草案，实施状态以源码和 [04 兼容矩阵](04-compatibility-matrix.md) 为准。  
-> 前置文档：[00 总体技术方案](00-java-reimplementation-plan.md)、[01 总体架构与模块划分](01-architecture-and-modules.md)、[02 行为基线](02-behavior-baseline.md)  
+> 前置文档：[项目重实现计划](../README.md)、[01 总体架构与模块划分](01-architecture-and-modules.md)、[02 行为基线](02-behavior-baseline.md)  
 > 参考源码：`D:\code\smolagents\src\smolagents\agents.py`、`models.py`、`memory.py`、`tools.py`
 
 ## 1. 目标与设计决定
@@ -303,7 +303,7 @@ Java Core 的确定性单测使用 FakeModel、FakeTool、FakeCodeExecutor 和�
 
 Core 实现依次落地：JSON/消息与 token 类型 → ToolSpec/校验/registry → steps/AgentMemory → AgentInput/RunOptions/RunResult/异常 → Model 与 CodeExecutor SPI → Fake 驱动的 ToolCallingAgent 最小闭环 → CodeAgent 执行流程及 stream。
 
-以下剩余项需按 `00-java-reimplementation-plan.md` 的待办逐项验收：
+以下剩余项需按根目录 `README.md` 中的待办逐项验收：
 
 - 当前依赖已固定为 Jackson `2.22.3` 和 networknt JSON Schema validator `1.5.9`；发布前仍需核实并汇总依赖许可。
 - `RunOptions.returnFullResult` 是保留字段但 runtime 不读取；调用方通过 `runFull()` 获取完整结果，需决定字段的弃用/兼容策略。

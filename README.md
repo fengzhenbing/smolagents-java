@@ -168,7 +168,7 @@ public interface Agent {
 | 4. 常用模型与工具 | OpenAI 兼容/HF/Ollama 模型适配、内置核心工具及 Provider 能力检测。 | HTTP mock 覆盖鉴权、错误、重试、流式和 tool-call 解析；无真实密钥可运行。 | **Partial**：Ollama native、HF Router、OpenAI-compatible 和多种工具有测试；HF 云端及剩余 Provider/edge cases 未验收。 |
 | 5. 扩展能力 | 其他模型后端、MCP、managed agents、多模态、Hub 序列化/同步、遥测。 | 每项能力有清楚的可选依赖、failure contract 和适用集成测试。 | **Partial**：MCP、Hub 审阅/下载、serialization、monitoring、Whisper adapters 等已实现部分；原生远程 providers、真实 Whisper、完整媒体和 Gradio parity 未完成。 |
 | 6. 应用入口 | CLI、视觉网页浏览能力和可选 Web UI。 | 命令参数/退出码可测试；浏览器与 UI 行为明确、安全且可选。 | **Partial**：CLI、Chrome CDP tool、loopback HTTP/SSE、多会话和可选本地持久化已实现；Python 专用视觉 Agent、完整 Gradio、多用户/多模态交互未完成。 |
-| 7. 兼容验收 | 文档示例迁移、完整回归、兼容矩阵和发布策略。 | 逐项标记 Compatible/Partial/Unsupported，有环境记录、release checklist 和无过期状态的文档。 | **Partial**：`docs/00` 至 `docs/04` 已按当前源码、POM、测试报告校订并检查本地链接；CAP 行为 fixtures、Python 对照和最终 release review 未完成。 |
+| 7. 兼容验收 | 文档示例迁移、完整回归、兼容矩阵和发布策略。 | 逐项标记 Compatible/Partial/Unsupported，有环境记录、release checklist 和无过期状态的文档。 | **Partial**：根目录 `README.md` 和 `docs/01` 至 `docs/04` 已按当前源码、POM、测试报告校订并检查本地链接；CAP 行为 fixtures、Python 对照和最终 release review 未完成。 |
 
 实施约束：后续优先修正文档中的代码/状态冲突，然后逐项做 Python 源码—Java 行为—测试对照。不要把存在 hook、adapter class 或 opt-in 测试入口等同于 provider/runtime 已验收；真实云服务、Docker、Whisper checkpoint 没有运行证据时继续标为 Pending/Blocked。
 
@@ -222,7 +222,7 @@ public interface Agent {
 
 | ID | 优先级 | 待办 | 状态 | 依赖/阻塞 | 完成条件 |
 | --- | --- | --- | --- | --- | --- |
-| DOC-01 | P0 | 校对 `docs/00` 至 `docs/04` 与当前实现、测试、Maven 配置 | Done | 无 | 已对照源码/POM/Surefire 报告检查 package、API 边界、版本、测试计数、live skip、限制及状态；5 份 Markdown 的本地链接均可解析。 |
+| DOC-01 | P0 | 校对根目录 `README.md` 与 `docs/01` 至 `docs/04` 的当前实现一致性 | Done | 无 | 已对照源码/POM/Surefire 报告检查 package、API 边界、版本、测试计数、live skip、限制及状态；5 份 Markdown 的本地链接均可解析。 |
 | DOC-02 | P0 | 建立并维护本文件的单一剩余 backlog | Done | DOC-01 审计结论 | 稳定 ID、优先级、状态、依赖/阻塞和验收条件已登记；后续每项完成/新增均同步本文件与相应 CAP 文档。 |
 | PAR-01 | P0 | 完成 CodeAgent/ToolCallingAgent planning prompt Python 对照 | Partial | pytest 当前未安装且 PyPI 下载失败；可用直接 Python probe 取证但不等同 pytest | 无/有 managed agents 的两类 Agent 初始及更新 planning prompt 均有完整 SHA-256 对照；Python YAML 中单花括号 `{remaining_steps}` 在比较时显式归一化，而 Java 保留真实预算。仍需覆盖 system-prompt 全量 YAML/Jinja（custom instructions、code tags 等）和完整运行上下文。 |
 | PAR-02 | P0 | 完成 Agent 核心行为对照 fixtures | Partial | PAR-01 建立 fixtures 约定 | ManagedAgentTool 的 task/nullable additional_args 和 Python task/report wrapper 已有确定性验证；仍需比较 Java `includeRunSummary` 与 Python `<summary_of_work>` 语义，并覆盖 reset/续跑、max steps、final answer check、工具协议错误、stream/cancel、step/result/usage；差异写 CAP-01。 |
@@ -242,7 +242,7 @@ public interface Agent {
 
 - 当前执行模式：用户要求暂不修改源码和测试代码，仅维护文档及剩余待办，直至用户明确恢复代码实施。Java 工程完整源码/测试/文档已推送至 `fengzhenbing/smolagents-java` 的 `main`，初始代码提交为 `d3b1fc1b4437871b0b6d2f88a48d29ab94d36d9f`；`target/` 构建产物与 `.idea/` 本机 IDE 配置未纳入仓库。此推送不代表整体重实现已完成。
 - 最近一次完整 Maven/Javadoc 验证：`.\mvnw.cmd test javadoc:javadoc`，212 tests、0 failures/errors、7 opt-in skips；后续代码修改须重新运行并同步计数。
-- 文档复核：逐项核对 `docs/00` 至 `docs/04` 与当前源码/POM/Surefire XML，并验证 5 份 Markdown 的本地链接；`ToolExecutionContext` logger 误述、ToolSpec 输出元数据和 planning prompt 差异已按当前实现修订。文档修订不会替代后续 Python 行为对照。
+- 文档复核：逐项核对根目录 `README.md` 与 `docs/01` 至 `docs/04` 和当前源码/POM/Surefire XML，并验证 5 份 Markdown 的本地链接；`ToolExecutionContext` logger 误述、ToolSpec 输出元数据和 planning prompt 差异已按当前实现修订。文档修订不会替代后续 Python 行为对照。
 - Chrome/CDP 视觉浏览器和 Web UI 会话/任务 smoke 曾显式通过；本机 `gemma4:26b` Ollama smoke/tool calling/ToolCallingAgent 3/3 曾显式通过。
 - Python venv 中有 `smolagents`、Jinja 和运行依赖，但无 `pytest`/pip；通过 `uv` 安装 pytest 时网络被拒绝。可继续使用直接 Python 探针，但必须标注其不是 pytest suite。
 - Docker/Podman/WSL daemon 不可用；本机 Whisper 缺少 `accelerate`/`soundfile` 且没有模型 checkpoint；远端 E2B/Modal/Blaxel credentials 未提供。任何相关事项未能在真实环境执行时都保留 Blocked/Pending。

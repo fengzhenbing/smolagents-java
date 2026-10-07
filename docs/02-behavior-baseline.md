@@ -1,7 +1,7 @@
 # smolagents Java 重实现行为基线
 
 > 状态：持续验收中；本文定义范围、参考测试和验收方法，Java 功能按下方状态逐项完成。  
-> 前置文档：[00 总体技术方案](00-java-reimplementation-plan.md)、[01 总体架构与模块划分](01-architecture-and-modules.md)  
+> 前置文档：[项目重实现计划](../README.md)、[01 总体架构与模块划分](01-architecture-and-modules.md)  
 > Python 参考版本：`smolagents 1.27.0.dev0`（`src/smolagents/__init__.py`）
 
 ## 1. 目标和使用方式

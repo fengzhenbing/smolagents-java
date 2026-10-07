@@ -1,7 +1,7 @@
 # Java 总体架构与模块划分
 
 > 状态：架构设计及现状对照；目标结构不代表所有能力均已实现。当前功能状态以 [04 兼容矩阵](04-compatibility-matrix.md) 为准。  
-> 对应总体方案：[Java 重实现技术方案](00-java-reimplementation-plan.md)  
+> 对应总体方案：[Java 重实现技术方案](../README.md)  
 > 参考源码：`D:\code\smolagents\src\smolagents`
 
 ## 1. 本文目的
@@ -321,7 +321,7 @@ Python 仓库 `tests/` 的 Agents、models、tools、memory、executor、seriali
 
 ## 11. 参考
 
-- 总体方案：[`00-java-reimplementation-plan.md`](00-java-reimplementation-plan.md)
+- 总体方案：[根目录 README](../README.md)
 - Java 项目现状：`D:\code\smolagents-java\pom.xml`、`D:\code\smolagents-java\src\main\java\org\fzb\Main.java`
 - Python 源码：`D:\code\smolagents\src\smolagents`
 - Python optional dependencies：`D:\code\smolagents\pyproject.toml`
