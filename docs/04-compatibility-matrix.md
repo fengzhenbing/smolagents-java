@@ -5,9 +5,10 @@
 - 本地 Java 工程：`D:\code\smolagents-java`，Java 21，Maven。
 - Python 行为参考：`D:\code\smolagents\src\smolagents` 与该仓库 `tests/`。
 - 最新完整确定性检查：`.\mvnw.cmd test javadoc:javadoc`，212 项，0 失败、0 错误，7 项 opt-in live tests 默认跳过；Javadoc 成功。
+- 工具链前提：上述命令要求 Maven 运行在 JDK 21+。POM 已启用 `maven-enforcer-plugin` 3.5.0（`validate` 阶段 `requireJavaVersion [21,)`、`requireMavenVersion [3.9,)`）；误用旧 JDK 会在 `validate` 直接失败，不再表现为 surefire fork 崩溃。环境记录：用户级 `JAVA_HOME` = `C:\Users\Administrator\.jdks\liberica-full-21.0.12.1`，`PATH` 上的 `java` 仍为 1.8（机器级 PATH 未改动）。
 - 本地 Ollama live 检查：`SMOLAGENTS_OLLAMA_TESTS=1`，`gemma4:26b`，CPU (`num_gpu=0`)、`think=false`；smoke、原生工具调用和 ToolCallingAgent 闭环 3/3 通过。
 - 本机 Chrome/CDP live 检查：`SMOLAGENTS_BROWSER_TESTS=1`；浏览器页面导航/点击/截图与 Agent Web UI 新会话/任务/SSE 结果两个 smoke 均通过。
-- Docker/Podman/WSL daemon 当前不可用，Docker 容器实机隔离与 Ollama CodeAgent live 测试受阻；不得把本地 CPython 子进程描述成安全沙箱。
+- Docker/Podman/WSL 不可用（本机连 `docker` CLI 都不存在，不只是 daemon 未运行），Docker 容器实机隔离与 Ollama CodeAgent live 测试受阻；不得把本地 CPython 子进程描述成安全沙箱。
 
 ## 2. 能力矩阵
 

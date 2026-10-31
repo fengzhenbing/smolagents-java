@@ -241,8 +241,9 @@ public interface Agent {
 ### 12.1 验证基线和环境阻塞
 
 - 当前执行模式：用户要求暂不修改源码和测试代码，仅维护文档及剩余待办，直至用户明确恢复代码实施。Java 工程完整源码/测试/文档已推送至 `fengzhenbing/smolagents-java` 的 `main`，初始代码提交为 `d3b1fc1b4437871b0b6d2f88a48d29ab94d36d9f`；`target/` 构建产物与 `.idea/` 本机 IDE 配置未纳入仓库。此推送不代表整体重实现已完成。
-- 最近一次完整 Maven/Javadoc 验证：`.\mvnw.cmd test javadoc:javadoc`，212 tests、0 failures/errors、7 opt-in skips；后续代码修改须重新运行并同步计数。
+- 最近一次完整 Maven/Javadoc 验证：`.\mvnw.cmd test javadoc:javadoc`，212 tests、0 failures/errors、7 opt-in skips；后续代码修改须重新运行并同步计数（2026-10-25 在未改动 Java 源码的前提下复跑确认同一计数）。
+- 构建工具链要求：Maven 必须运行在 JDK 21 及以上。本机 `PATH` 上的 `java` 是 1.8（`C:\Program Files (x86)\Common Files\Oracle\Java\java8path`），`JAVA_HOME` 原本为空，导致 `.\mvnw.cmd test` 在 surefire fork 阶段崩溃并在 `target/surefire-reports/` 留下 287 个 `.dumpstream`；已在用户级环境变量把 `JAVA_HOME` 指向 `C:\Users\Administrator\.jdks\liberica-full-21.0.12.1`（残留文件已清理，`PATH` 上的 1.8 属机器级配置未改动，以 `JAVA_HOME` 为准）。POM 同时加入 `maven-enforcer-plugin` 3.5.0（`validate` 阶段 `requireJavaVersion [21,)`、`requireMavenVersion [3.9,)`），旧 JDK 现在会在 `validate` 立即失败并给出可读提示，不再退化为 fork 崩溃。`.\mvnw.cmd -v` 可自查实际 JDK。
 - 文档复核：逐项核对根目录 `README.md` 与 `docs/01` 至 `docs/04` 和当前源码/POM/Surefire XML，并验证 5 份 Markdown 的本地链接；`ToolExecutionContext` logger 误述、ToolSpec 输出元数据和 planning prompt 差异已按当前实现修订。文档修订不会替代后续 Python 行为对照。
 - Chrome/CDP 视觉浏览器和 Web UI 会话/任务 smoke 曾显式通过；本机 `gemma4:26b` Ollama smoke/tool calling/ToolCallingAgent 3/3 曾显式通过。
-- Python venv 中有 `smolagents`、Jinja 和运行依赖，但无 `pytest`/pip；通过 `uv` 安装 pytest 时网络被拒绝。可继续使用直接 Python 探针，但必须标注其不是 pytest suite。
-- Docker/Podman/WSL daemon 不可用；本机 Whisper 缺少 `accelerate`/`soundfile` 且没有模型 checkpoint；远端 E2B/Modal/Blaxel credentials 未提供。任何相关事项未能在真实环境执行时都保留 Blocked/Pending。
+- 本机 Python（`D:\soft\python314\python.exe`，3.14）中可导入 `smolagents` 1.26.0、`jinja2` 3.1.6、`yaml`、`huggingface_hub`；`pip` 26.2.1 可用，`python -m pip install --dry-run pytest` 能解析出 `pytest-9.1.1`（PyPI 可达），但 `pytest` 仍未安装，早期记录的 `uv` 安装被网络拒绝已不复现。可继续使用直接 Python 探针，但必须标注其不是 pytest suite。
+- Docker/Podman/WSL 不可用（本机未安装 `docker`/`podman` CLI，不是仅 daemon 停止）；本机 Whisper 缺少 `accelerate`/`soundfile` 且没有模型 checkpoint；远端 E2B/Modal/Blaxel credentials 未提供。任何相关事项未能在真实环境执行时都保留 Blocked/Pending。
